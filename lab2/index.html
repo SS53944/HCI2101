@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لعبة XO</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Cairo', sans-serif;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    h1 {
+        margin-bottom: 10px;
+    }
+
+    .screen {
+        flex: 1;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .active {
+        display: flex;
+    }
+
+    .card {
+        background: rgba(255,255,255,0.15);
+        backdrop-filter: blur(10px);
+        padding: 25px;
+        border-radius: 15px;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    input, select, button {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        border-radius: 8px;
+        border: none;
+        font-size: 16px;
+    }
+
+    button {
+        background: #00eaff;
+        color: #000;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #00c9d8;
+    }
+
+    .game-board {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .cell {
+        background: rgba(255,255,255,0.9);
+        color: #333;
+        font-size: 40px;
+        font-weight: bold;
+        height: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    .cell:hover {
+        background: #f1f1f1;
+    }
+
+    .status {
+        margin-top: 15px;
+        font-size: 18px;
+    }
+
+    footer {
+        background: rgba(0,0,0,0.4);
+        padding: 10px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    @media (max-width: 500px) {
+        .cell {
+            height: 70px;
+            font-size: 32px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<!-- شاشة البداية -->
+<div class="screen active" id="startScreen">
+    <div class="card">
+        <h1>🎮 لعبة XO</h1>
+
+        <select id="mode">
+            <option value="1">لاعب واحد (ضد الكمبيوتر)</option>
+            <option value="2">لاعبان</option>
+        </select>
+
+        <input type="text" id="player1" placeholder="اسم اللاعب الأول">
+        <input type="text" id="player2" placeholder="اسم اللاعب الثاني (اختياري)">
+
+        <button onclick="startGame()">ابدأ اللعبة</button>
+    </div>
+</div>
+
+<!-- شاشة اللعبة -->
+<div class="screen" id="gameScreen">
+    <div class="card">
+        <h1 id="playersTitle"></h1>
+
+        <div class="game-board" id="board"></div>
+
+        <div class="status" id="status"></div>
+
+        <button onclick="resetGame()">إعادة اللعب</button>
+    </div>
+</div>
+
+<footer>
+    <div>
+        <strong>اسم الطالب:</strong> ABDULRAHMAN MOHAMMED ABDULRAHMAN BAHASHWAN<br>
+        (عبدالرحمن محمد ابن عبدالرحمن باحشوان)<br>
+        <strong>الرقم الجامعي:</strong> 446003568<br>
+        <strong>إشراف:</strong> Mohammed Ahmed Jabali
+    </div>
+</footer>
+
+<script>
+    const startScreen = document.getElementById("startScreen");
+    const gameScreen = document.getElementById("gameScreen");
+    const boardDiv = document.getElementById("board");
+    const statusDiv = document.getElementById("status");
+    const playersTitle = document.getElementById("playersTitle");
+
+    let board = ["", "", "", "", "", "", "", "", ""];
+    let currentPlayer = "X";
+    let gameMode = 1;
+    let player1 = "";
+    let player2 = "الكمبيوتر";
+    let gameActive = true;
+
+    function startGame() {
+        player1 = document.getElementById("player1").value || "لاعب 1";
+        player2 = document.getElementById("player2").value || "لاعب 2";
+        gameMode = document.getElementById("mode").value;
+
+        if (gameMode == 1) player2 = "الكمبيوتر";
+
+        playersTitle.textContent = `${player1} (X) ضد ${player2} (O)`;
+
+        startScreen.classList.remove("active");
+        gameScreen.classList.add("active");
+
+        createBoard();
+        updateStatus();
+    }
+
+    function createBoard() {
+        boardDiv.innerHTML = "";
+        board = ["", "", "", "", "", "", "", "", ""];
+        gameActive = true;
+        currentPlayer = "X";
+
+        board.forEach((_, index) => {
+            const cell = document.createElement("div");
+            cell.className = "cell";
+            cell.onclick = () => handleMove(index);
+            boardDiv.appendChild(cell);
+        });
+    }
+
+    function handleMove(index) {
+        if (!gameActive || board[index] !== "") return;
+
+        board[index] = currentPlayer;
+        boardDiv.children[index].textContent = currentPlayer;
+
+        if (checkWinner()) {
+            statusDiv.textContent = `🎉 الفائز: ${currentPlayer === "X" ? player1 : player2}`;
+            gameActive = false;
+            return;
+        }
+
+        if (!board.includes("")) {
+            statusDiv.textContent = "🤝 تعادل!";
+            gameActive = false;
+            return;
+        }
+
+        currentPlayer = currentPlayer === "X" ? "O" : "X";
+        updateStatus();
+
+        if (gameMode == 1 && currentPlayer === "O") {
+            setTimeout(computerMove, 500);
+        }
+    }
+
+    function computerMove() {
+        let emptyCells = board.map((v, i) => v === "" ? i : null).filter(v => v !== null);
+        let move = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+        handleMove(move);
+    }
+
+    function checkWinner() {
+        const wins = [
+            [0,1,2],[3,4,5],[6,7,8],
+            [0,3,6],[1,4,7],[2,5,8],
+            [0,4,8],[2,4,6]
+        ];
+        return wins.some(combo =>
+            combo.every(i => board[i] === currentPlayer)
+        );
+    }
+
+    function updateStatus() {
+        statusDiv.textContent = `الدور على: ${currentPlayer === "X" ? player1 : player2}`;
+    }
+
+    function resetGame() {
+        createBoard();
+        updateStatus();
+    }
+</script>
+
+</body>
+</html>
