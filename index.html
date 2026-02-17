@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA 2026 | القمة</title>
+    <style>
+        :root {
+            --bg: #000;
+            --text-main: #ffffff;
+            --text-dim: #a1a1a6;
+            --accent: #0071e3;
+            --nav-bg: rgba(10, 10, 10, 0.85);
+            /* ألوان التدرج للنص */
+            --grad-start: #ffffff;
+            --grad-mid: #2f81f7;
+            --grad-end: #a371f7;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'SF Pro Display', -apple-system, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* خلفية النجوم الساطعة */
+        #bg-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Header */
+        nav {
+            position: fixed;
+            top: 25px; left: 50%;
+            transform: translateX(-50%);
+            width: 95%; max-width: 1200px; height: 70px;
+            background: var(--nav-bg);
+            backdrop-filter: blur(30px) saturate(200%);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 35px; z-index: 1000;
+            border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-logo { font-weight: 700; font-size: 24px; color: #fff; text-decoration: none; }
+        .nav-links a { color: #fff; text-decoration: none; font-size: 18px; padding: 0 15px; }
+        .nav-cta { background: var(--accent); color: #fff !important; padding: 10px 25px !important; border-radius: 20px; font-weight: bold; text-decoration: none; }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; position: relative; z-index: 2;
+        }
+
+        /* العنوان بتدرج لوني بدون توهج وبدون حركة */
+        .hero-title {
+            font-size: clamp(60px, 14vw, 150px);
+            font-weight: 800;
+            /* تطبيق التدرج اللوني */
+            background: linear-gradient(135deg, var(--grad-start) 20%, var(--grad-mid) 50%, var(--grad-end) 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            /* حذف التوهج والأنيميشن */
+            text-shadow: none;
+            animation: none;
+            letter-spacing: -3px;
+        }
+
+        .hero-sub { font-size: 24px; margin-top: 20px; color: var(--text-dim); }
+
+        .links { margin-top: 50px; display: flex; gap: 20px; }
+        .btn-buy { background: #fff; color: #000; padding: 15px 40px; border-radius: 40px; text-decoration: none; font-weight: 700; font-size: 20px; transition: 0.3s; }
+        .btn-buy:hover { background: var(--accent); color: #fff; }
+        .link-more { color: #fff; text-decoration: none; border: 1px solid #fff; padding: 15px 40px; border-radius: 40px; font-size: 20px; transition: 0.3s; }
+        .link-more:hover { background: rgba(255,255,255,0.1); }
+
+        /* Bento Grid */
+        .grid-section { padding: 100px 5%; position: relative; z-index: 2; }
+        .bento { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; max-width: 1300px; margin: 0 auto; }
+        .bento-item {
+            background: rgba(15, 15, 15, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 40px; padding: 60px; transition: 0.5s;
+        }
+        .bento-item:hover { border-color: var(--accent); transform: translateY(-10px); }
+        .bento-item h3 { font-size: 32px; margin-bottom: 15px; }
+        .bento-item p { color: var(--text-dim); font-size: 18px; }
+
+        .reveal { opacity: 0; transform: translateY(40px); transition: 1s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <nav>
+        <a href="#" class="nav-logo">AURA</a>
+        <div class="nav-links">
+            <a href="https://www.apple.com/vision-pro/">المواصفات</a>
+            <a href="https://www.apple.com/shop">المتجر</a>
+            <a href="https://www.apple.com/shop" class="nav-cta">شراء</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1 class="hero-title">AURA Vision</h1>
+        <p class="hero-sub">لا تشاهد المستقبل. عِش داخله.</p>
+        <div class="links">
+            <a href="https://www.apple.com/shop" class="btn-buy">شراء الآن</a>
+            <a href="https://www.apple.com/vision-pro" class="link-more">اعرف المزيد ←</a>
+        </div>
+    </section>
+
+    <section class="grid-section">
+        <div class="bento">
+            <div class="bento-item reveal">
+                <h3>القوة المطلقة.</h3>
+                <p>شريحة M5 الجيل القادم المصممة خصيصاً للمعالجة المكانية الفورية.</p>
+            </div>
+            <div class="bento-item reveal">
+                <h3>خفيفة كالهواء.</h3>
+                <p>هيكل من التيتانيوم المصقول لراحة أبدية تحت أي ظرف.</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // برمجة النجوم (أنيميشن النجوم مستمر)
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+
+        function init() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            stars = [];
+            for (let i = 0; i < 200; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2.5,
+                    speed: Math.random() * 0.5,
+                    opacity: Math.random(),
+                    blinkSpeed: Math.random() * 0.02
+                });
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(s => {
+                ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity})`;
+                ctx.shadowBlur = 5;
+                ctx.shadowColor = "white";
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                s.y -= s.speed;
+                if (s.y < 0) s.y = canvas.height;
+                
+                s.opacity += s.blinkSpeed;
+                if (s.opacity > 1 || s.opacity < 0.2) s.blinkSpeed *= -1;
+            });
+            requestAnimationFrame(draw);
+        }
+
+        window.addEventListener('resize', init);
+        init();
+        draw();
+
+        function reveal() {
+            document.querySelectorAll(".reveal").forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add("active");
+            });
+        }
+        window.addEventListener("scroll", reveal);
+        window.addEventListener("load", reveal);
+    </script>
+</body>
+</html>
