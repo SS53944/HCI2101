@@ -11,7 +11,6 @@
             --text-dim: #a1a1a6;
             --accent: #0071e3;
             --nav-bg: rgba(10, 10, 10, 0.85);
-            /* ألوان التدرج للنص */
             --grad-start: #ffffff;
             --grad-mid: #2f81f7;
             --grad-end: #a371f7;
@@ -26,7 +25,6 @@
             overflow-x: hidden;
         }
 
-        /* خلفية النجوم الساطعة */
         #bg-canvas {
             position: fixed;
             top: 0; left: 0;
@@ -35,65 +33,91 @@
             pointer-events: none;
         }
 
-        /* Header */
+        /* Header متجاوب */
         nav {
             position: fixed;
-            top: 25px; left: 50%;
+            top: 15px; left: 50%;
             transform: translateX(-50%);
-            width: 95%; max-width: 1200px; height: 70px;
+            width: 90%; max-width: 1200px; height: 60px;
             background: var(--nav-bg);
-            backdrop-filter: blur(30px) saturate(200%);
+            backdrop-filter: blur(20px) saturate(180%);
             display: flex; justify-content: space-between; align-items: center;
-            padding: 0 35px; z-index: 1000;
-            border-radius: 35px; border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0 20px; z-index: 1000;
+            border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
-        .nav-logo { font-weight: 700; font-size: 24px; color: #fff; text-decoration: none; }
-        .nav-links a { color: #fff; text-decoration: none; font-size: 18px; padding: 0 15px; }
-        .nav-cta { background: var(--accent); color: #fff !important; padding: 10px 25px !important; border-radius: 20px; font-weight: bold; text-decoration: none; }
+        .nav-logo { font-weight: 700; font-size: 20px; color: #fff; text-decoration: none; }
+        .nav-links a { color: #fff; text-decoration: none; font-size: 14px; padding: 0 10px; }
+        .nav-cta { background: var(--accent); color: #fff !important; padding: 8px 18px !important; border-radius: 15px; font-weight: bold; text-decoration: none; }
 
         /* Hero Section */
         .hero {
             height: 100vh;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            text-align: center; position: relative; z-index: 2;
+            text-align: center; position: relative; z-index: 2; padding: 0 20px;
         }
 
-        /* العنوان بتدرج لوني بدون توهج وبدون حركة */
         .hero-title {
-            font-size: clamp(60px, 14vw, 150px);
+            font-size: clamp(45px, 12vw, 130px);
             font-weight: 800;
-            /* تطبيق التدرج اللوني */
             background: linear-gradient(135deg, var(--grad-start) 20%, var(--grad-mid) 50%, var(--grad-end) 80%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            /* حذف التوهج والأنيميشن */
             text-shadow: none;
-            animation: none;
-            letter-spacing: -3px;
+            letter-spacing: -2px;
         }
 
-        .hero-sub { font-size: 24px; margin-top: 20px; color: var(--text-dim); }
+        .hero-sub { font-size: clamp(18px, 4vw, 24px); margin-top: 15px; color: var(--text-dim); }
 
-        .links { margin-top: 50px; display: flex; gap: 20px; }
-        .btn-buy { background: #fff; color: #000; padding: 15px 40px; border-radius: 40px; text-decoration: none; font-weight: 700; font-size: 20px; transition: 0.3s; }
-        .btn-buy:hover { background: var(--accent); color: #fff; }
-        .link-more { color: #fff; text-decoration: none; border: 1px solid #fff; padding: 15px 40px; border-radius: 40px; font-size: 20px; transition: 0.3s; }
-        .link-more:hover { background: rgba(255,255,255,0.1); }
+        /* تعديل الأزرار للجوال */
+        .links { 
+            margin-top: 40px; 
+            display: flex; 
+            gap: 15px; 
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-buy, .link-more {
+            padding: 15px 35px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .btn-buy { background: #fff; color: #000; }
+        .link-more { color: #fff; border: 1px solid #fff; }
+
+        /* شاشات الجوال */
+        @media (max-width: 600px) {
+            nav { top: 10px; height: 50px; padding: 0 15px; }
+            .nav-links { display: none; } /* إخفاء الروابط الفرعية لترك مساحة للشراء */
+            
+            .links {
+                flex-direction: column; /* ترتيب رأسي للأزرار */
+                padding: 0 30px;
+            }
+            .btn-buy, .link-more {
+                width: 100%; /* تمدد الزر بعرض الشاشة */
+                font-size: 16px;
+            }
+        }
 
         /* Bento Grid */
-        .grid-section { padding: 100px 5%; position: relative; z-index: 2; }
-        .bento { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; max-width: 1300px; margin: 0 auto; }
+        .grid-section { padding: 80px 5%; position: relative; z-index: 2; }
+        .bento { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
         .bento-item {
             background: rgba(15, 15, 15, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 40px; padding: 60px; transition: 0.5s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px; padding: 40px; transition: 0.5s;
         }
-        .bento-item:hover { border-color: var(--accent); transform: translateY(-10px); }
-        .bento-item h3 { font-size: 32px; margin-bottom: 15px; }
-        .bento-item p { color: var(--text-dim); font-size: 18px; }
+        .bento-item h3 { font-size: 26px; margin-bottom: 10px; }
+        .bento-item p { color: var(--text-dim); font-size: 16px; }
 
-        .reveal { opacity: 0; transform: translateY(40px); transition: 1s ease-out; }
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
@@ -106,8 +130,8 @@
         <div class="nav-links">
             <a href="https://www.apple.com/vision-pro/">المواصفات</a>
             <a href="https://www.apple.com/shop">المتجر</a>
-            <a href="https://www.apple.com/shop" class="nav-cta">شراء</a>
         </div>
+        <a href="https://www.apple.com/shop" class="nav-cta">شراء</a>
     </nav>
 
     <section class="hero">
@@ -133,7 +157,6 @@
     </section>
 
     <script>
-        // برمجة النجوم (أنيميشن النجوم مستمر)
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let stars = [];
@@ -142,12 +165,12 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             stars = [];
-            for (let i = 0; i < 200; i++) {
+            for (let i = 0; i < 150; i++) {
                 stars.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
-                    size: Math.random() * 2.5,
-                    speed: Math.random() * 0.5,
+                    size: Math.random() * 2,
+                    speed: Math.random() * 0.4,
                     opacity: Math.random(),
                     blinkSpeed: Math.random() * 0.02
                 });
@@ -158,15 +181,13 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             stars.forEach(s => {
                 ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity})`;
-                ctx.shadowBlur = 5;
+                ctx.shadowBlur = 4;
                 ctx.shadowColor = "white";
                 ctx.beginPath();
                 ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
                 ctx.fill();
-
                 s.y -= s.speed;
                 if (s.y < 0) s.y = canvas.height;
-                
                 s.opacity += s.blinkSpeed;
                 if (s.opacity > 1 || s.opacity < 0.2) s.blinkSpeed *= -1;
             });
